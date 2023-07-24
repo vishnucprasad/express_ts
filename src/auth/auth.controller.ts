@@ -1,6 +1,7 @@
 import {
   BaseHttpController,
   controller,
+  httpDelete,
   httpGet,
   httpPost,
   request,
@@ -43,5 +44,13 @@ export class AuthController extends BaseHttpController {
   )
   refreshToken(@requestBody() dto: RefreshTokenDto, @request() req: Request) {
     return this.authService.refreshToken(dto, req.user as IUserDoc);
+  }
+
+  @httpDelete(
+    '/signout',
+    passport.authenticate('access-jwt', { session: false })
+  )
+  signout(@request() req: Request) {
+    return this.authService.signout((req.user as IUserDoc)._id);
   }
 }

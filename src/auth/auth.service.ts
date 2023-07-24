@@ -100,4 +100,8 @@ export class AuthService {
       access_token: accessToken,
     };
   }
+
+  async signout(userId: string) {
+    return await this.refreshTokenRepo.findByUserIdAndDelete(userId);
+  }
 }

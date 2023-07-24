@@ -46,4 +46,8 @@ export class RefreshTokenRepository {
   ): Promise<void> {
     await this.refreshTokenModel.findByIdAndUpdate(userId, patch);
   }
+
+  async findByUserIdAndDelete(userId: string): Promise<void> {
+    await this.refreshTokenModel.findOneAndDelete({ user: userId });
+  }
 }
