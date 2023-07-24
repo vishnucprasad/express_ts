@@ -11,7 +11,8 @@ import {
   accessTokenConfig,
   refreshTokenConfig,
 } from '../config';
-import { IRefreshToken } from './schema';
+import { IRefreshToken, IUserDoc } from './schema';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @injectable()
 export class AuthService {
@@ -74,5 +75,29 @@ export class AuthService {
     return jwt.sign(payload, config.secret, {
       expiresIn: config.expiresIn,
     });
+  }
+
+  async refreshToken(
+    dto: RefreshTokenDto,
+    user: IUserDoc
+  ): Promise<{ access_token: string }> {
+    const refreshToken = await this.refreshTokenRepo.findByToken(
+      dto.refreshToken
+    );
+
+    if (!refreshToken) {
+      throw new UnauthorizedException('Unauthorized');
+    }
+
+    const payload: Payload = {
+      sub: user._id,
+      email: user.email,
+    };
+
+    const accessToken = await this.generateJWT(payload, accessTokenConfig);
+
+    return {
+      access_token: accessToken,
+    };
   }
 }

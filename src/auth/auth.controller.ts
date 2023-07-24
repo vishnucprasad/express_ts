@@ -12,6 +12,8 @@ import { validateBody } from '../middleware';
 import { AuthService } from './auth.service';
 import passport from 'passport';
 import { Request } from 'express';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { IUserDoc } from './schema';
 
 @controller('/auth')
 export class AuthController extends BaseHttpController {
@@ -32,5 +34,14 @@ export class AuthController extends BaseHttpController {
   @httpGet('/', passport.authenticate('access-jwt', { session: false }))
   getUser(@request() req: Request) {
     return req.user;
+  }
+
+  @httpPost(
+    '/refresh',
+    validateBody(RefreshTokenDto),
+    passport.authenticate('refresh-jwt', { session: false })
+  )
+  refreshToken(@requestBody() dto: RefreshTokenDto, @request() req: Request) {
+    return this.authService.refreshToken(dto, req.user as IUserDoc);
   }
 }

@@ -36,6 +36,10 @@ export class RefreshTokenRepository {
     });
   }
 
+  async findByToken(token: string): Promise<IRefreshTokenDoc> {
+    return await this.refreshTokenModel.findOne({ token });
+  }
+
   async findByIdAndUpdate(
     userId: string,
     patch: Partial<IRefreshToken>
