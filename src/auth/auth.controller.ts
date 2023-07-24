@@ -1,13 +1,17 @@
 import {
   BaseHttpController,
   controller,
+  httpGet,
   httpPost,
+  request,
   requestBody,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { RegisterDto, SigninDto } from './dto';
 import { validateBody } from '../middleware';
 import { AuthService } from './auth.service';
+import passport from 'passport';
+import { Request } from 'express';
 
 @controller('/auth')
 export class AuthController extends BaseHttpController {
@@ -23,5 +27,10 @@ export class AuthController extends BaseHttpController {
   @httpPost('/signin', validateBody(SigninDto))
   signin(@requestBody() dto: SigninDto) {
     return this.authService.signin(dto);
+  }
+
+  @httpGet('/', passport.authenticate('access-jwt', { session: false }))
+  getUser(@request() req: Request) {
+    return req.user;
   }
 }

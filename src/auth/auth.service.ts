@@ -16,21 +16,21 @@ import { IRefreshToken } from './schema';
 @injectable()
 export class AuthService {
   constructor(
-    @inject(UserRepository) private readonly authRepo: UserRepository,
+    @inject(UserRepository) private readonly userRepo: UserRepository,
     @inject(RefreshTokenRepository)
     private readonly refreshTokenRepo: RefreshTokenRepository
   ) {}
 
   async register(dto: RegisterDto) {
     dto.password = await argon.hash(dto.password);
-    return await this.authRepo.createUser(dto);
+    return await this.userRepo.createUser(dto);
   }
 
   async signin(dto: SigninDto): Promise<{
     access_token: string;
     refresh_token: string;
   }> {
-    const user = await this.authRepo.findUserByEmail(dto.email);
+    const user = await this.userRepo.findUserByEmail(dto.email);
 
     if (!user) throw new NotFoundException('User not found');
 

@@ -1,14 +1,26 @@
 import { json, urlencoded } from 'body-parser';
 import { Application, NextFunction, Request, Response } from 'express';
 import { BaseException, InternalServerException } from './exception.config';
+import passport from 'passport';
+import { DatabaseConnection } from '../database';
+import { AccessTokenStrategy } from '../auth/strategy';
+import { container } from './inversify.config';
 
-export function serverConfig(app: Application) {
+export async function serverConfig(app: Application) {
   app.use(
     urlencoded({
       extended: true,
     })
   );
   app.use(json());
+
+  app.use(passport.initialize());
+  const accessTokenStrategy = container.get(AccessTokenStrategy);
+  accessTokenStrategy.init();
+
+  const database = container.get(DatabaseConnection);
+  await database.initConnection();
+  database.setAutoReconnect();
 }
 
 export function serverErrorConfig(app: Application) {

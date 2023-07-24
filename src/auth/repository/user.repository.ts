@@ -22,6 +22,10 @@ export class UserRepository {
     }
   }
 
+  async findById(id: string): Promise<IUserDoc> {
+    return await this.userModel.findById(id);
+  }
+
   async findUserByEmail(email: string): Promise<IUserDoc> {
     return await this.userModel.findOne({ email });
   }
