@@ -6,6 +6,7 @@ import { container, serverConfig, serverErrorConfig } from '../src/config';
 import { RegisterDto, SigninDto } from '../src/auth/dto';
 
 import '../src/auth/auth.controller';
+import { RefreshTokenDto } from '../src/auth/dto/refresh-token.dto';
 
 let app: Application;
 let testServer: any;
@@ -154,6 +155,7 @@ describe('POST /auth/signin', () => {
     const response = await request(app).post('/auth/signin').send(dto);
     expect(response.status).toBe(200);
     store['access_token'] = response.body['access_token'];
+    store['refresh_token'] = response.body['refresh_token'];
   });
 });
 
@@ -161,6 +163,7 @@ describe('GET /auth', () => {
   it('should trow an error if no authorization token is provided', async () => {
     const response = await request(app).get('/auth');
     expect(response.status).toBe(401);
+    expect(response.text).toBe('Unauthorized');
   });
 
   it('should get authenticated user details', async () => {
@@ -168,5 +171,33 @@ describe('GET /auth', () => {
       .get('/auth')
       .set('Authorization', `Bearer ${store.access_token}`);
     expect(response.status).toBe(200);
+  });
+});
+
+describe('POST /auth/refresh', () => {
+  it('should throw an error if provided refreshtoken is invalid', async () => {
+    const dto: RefreshTokenDto = {
+      refreshToken: 'invalid',
+    };
+
+    const response = await request(app).post('/auth/refresh').send(dto);
+    expect(response.status).toBe(401);
+    expect(response.text).toBe('Unauthorized');
+  });
+
+  it('should throw an error if no body is provided', async () => {
+    const response = await request(app).post('/auth/refresh');
+    expect(response.status).toBe(400);
+    expect(response.body['type']).toBe('Validation Error');
+  });
+
+  it('should refresh the token', async () => {
+    const dto: RefreshTokenDto = {
+      refreshToken: store.refresh_token,
+    };
+
+    const response = await request(app).post('/auth/refresh').send(dto);
+    expect(response.status).toBe(200);
+    store['access_token'] = response.body['access_token'];
   });
 });
