@@ -156,3 +156,17 @@ describe('POST /auth/signin', () => {
     store['access_token'] = response.body['access_token'];
   });
 });
+
+describe('GET /auth', () => {
+  it('should trow an error if no authorization token is provided', async () => {
+    const response = await request(app).get('/auth');
+    expect(response.status).toBe(401);
+  });
+
+  it('should get authenticated user details', async () => {
+    const response = await request(app)
+      .get('/auth')
+      .set('Authorization', `Bearer ${store.access_token}`);
+    expect(response.status).toBe(200);
+  });
+});

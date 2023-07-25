@@ -12,7 +12,7 @@
   "testPathIgnorePatterns": [
     "node_modules"
   ],
-  "testRegex": ".spec.ts$",
+  "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.ts$": "ts-jest"
   }
