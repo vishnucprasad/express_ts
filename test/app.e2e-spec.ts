@@ -201,3 +201,21 @@ describe('POST /auth/refresh', () => {
     store['access_token'] = response.body['access_token'];
   });
 });
+
+describe('DELETE /auth/signout', () => {
+  it('should throw an error if no authorization token is provided', async () => {
+    const response = await request(app).delete('/auth/signout');
+
+    expect(response.status).toBe(401);
+    expect(response.text).toBe('Unauthorized');
+  });
+
+  it('should signout the user', async () => {
+    const response = await request(app)
+      .delete('/auth/signout')
+      .set('Authorization', `Bearer ${store.access_token}`);
+
+    expect(response.status).toBe(204);
+    expect(response.body).toBeNull;
+  });
+});
