@@ -1,0 +1,19 @@
+{
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "rootDir": ".",
+  "setupFilesAfterEnv": [
+    "<rootDir>/test/helpers/jest.setup.ts"
+  ],
+  "testEnvironment": "node",
+  "testPathIgnorePatterns": [
+    "node_modules"
+  ],
+  "testRegex": ".spec.ts$",
+  "transform": {
+    "^.+\\.ts$": "ts-jest"
+  }
+}
