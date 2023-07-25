@@ -12,7 +12,7 @@
     "start": "node dist/main.js",
     "prestart:dev": "pnpm lint",
     "start:dev": "nodemon",
-    "test": "dotenv -e .env.test -- jest --watch --detectOpenHandles"
+    "test": "dotenv -e .env.test -- jest --config ./test/jest-e2e.json --watch --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
