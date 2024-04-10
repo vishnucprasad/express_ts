@@ -1,10 +1,10 @@
 import { connect, connection } from 'mongoose';
 import { Logger } from '../config';
-import { inject, injectable } from 'inversify';
+import { injectable } from 'inversify';
 
 @injectable()
 export class DatabaseConnection {
-  constructor(@inject(Logger) private readonly logger: Logger) {}
+  private readonly logger: Logger = new Logger(DatabaseConnection.name);
 
   public async initConnection(): Promise<void> {
     process.env.DB_CONN_STR = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
