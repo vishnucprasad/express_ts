@@ -10,7 +10,7 @@ import {
   UnauthorizedException,
   accessTokenConfig,
   refreshTokenConfig,
-} from '../config';
+} from '../../config';
 import { IRefreshToken, IUserDoc } from './schema';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 

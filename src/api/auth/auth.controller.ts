@@ -9,7 +9,7 @@ import {
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { RegisterDto, SigninDto } from './dto';
-import { validateBody } from '../middleware';
+import { validateBody } from '../../middleware';
 import { AuthService } from './auth.service';
 import passport from 'passport';
 import { Request } from 'express';

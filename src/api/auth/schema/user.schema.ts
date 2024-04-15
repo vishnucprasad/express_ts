@@ -1,6 +1,6 @@
 import { Prop, getModelForClass, modelOptions } from '@typegoose/typegoose';
 import { Document, Model, SchemaOptions } from 'mongoose';
-import { BaseSchema } from '../../database/schema';
+import { BaseSchema } from '../../../database/schema';
 
 export interface IUser {
   name: string;

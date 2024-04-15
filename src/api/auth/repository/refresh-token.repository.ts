@@ -6,7 +6,7 @@ import {
   RefreshTokenSchema,
 } from '../schema';
 import { Model } from 'mongoose';
-import { ForbiddenException } from '../../config';
+import { ForbiddenException } from '../../../config';
 
 @injectable()
 export class RefreshTokenRepository {

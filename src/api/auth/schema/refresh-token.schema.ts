@@ -1,7 +1,7 @@
 import { Prop, getModelForClass, modelOptions } from '@typegoose/typegoose';
 import { Document, Model, SchemaOptions } from 'mongoose';
 import { ObjectId } from 'mongodb';
-import { BaseSchema } from '../../database/schema';
+import { BaseSchema } from '../../../database/schema';
 
 export interface IRefreshToken {
   user: string;

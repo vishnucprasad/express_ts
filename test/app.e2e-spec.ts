@@ -3,10 +3,10 @@ import { Application } from 'express';
 import request from 'supertest';
 import { connection } from 'mongoose';
 import { container, serverConfig, serverErrorConfig } from '../src/config';
-import { RegisterDto, SigninDto } from '../src/auth/dto';
+import { RegisterDto, SigninDto } from '../src/api/auth/dto';
 
-import '../src/auth/auth.controller';
-import { RefreshTokenDto } from '../src/auth/dto/refresh-token.dto';
+import '../src/api/auth/auth.controller';
+import { RefreshTokenDto } from '../src/api/auth/dto/refresh-token.dto';
 
 let app: Application;
 let testServer: any;
@@ -30,6 +30,23 @@ afterAll(() => {
   }
 });
 
+// common controller
+describe('GET /', () => {
+  it('should retrun a greetings message', async () => {
+    const response = await request(app).get('/');
+    expect(response.status).toBe(200);
+    expect(response.body['message']).toBe('Express TS');
+  });
+});
+
+describe('NOT_FOUND', () => {
+  it('should return a not found message', async () => {
+    const response = await request(app).get('/unknown');
+    expect(response.status).toBe(404);
+  });
+});
+
+// auth controller
 describe('POST /auth/register', () => {
   it('should throw an error if body not provided ', async () => {
     const response = await request(app).post('/auth/register');

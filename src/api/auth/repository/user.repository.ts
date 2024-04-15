@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { IUser, IUserDoc, UserModel, UserSchema } from '../schema';
 import { Model } from 'mongoose';
-import { ForbiddenException } from '../../config';
+import { ForbiddenException } from '../../../config';
 
 @injectable()
 export class UserRepository {

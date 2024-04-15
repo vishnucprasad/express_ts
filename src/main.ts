@@ -3,8 +3,6 @@ import 'reflect-metadata';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { Logger, serverConfig, container, serverErrorConfig } from './config';
 
-import './auth/auth.controller';
-
 export async function Bootstrap() {
   const server = new InversifyExpressServer(container);
   server.setConfig(serverConfig);

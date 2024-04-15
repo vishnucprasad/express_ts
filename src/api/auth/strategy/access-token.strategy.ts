@@ -1,22 +1,22 @@
 import { inject, injectable } from 'inversify';
 import passport from 'passport';
 import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
-import { Payload, refreshTokenConfig } from '../../config';
+import { Payload, accessTokenConfig } from '../../../config';
 import { UserRepository } from '../repository';
 
 @injectable()
-export class RefreshTokenStrategy {
+export class AccessTokenStrategy {
   constructor(
     @inject(UserRepository) private readonly userRepo: UserRepository
   ) {}
 
   public init() {
     passport.use(
-      'refresh-jwt',
+      'access-jwt',
       new Strategy(
         {
-          jwtFromRequest: ExtractJwt.fromBodyField('refreshToken'),
-          secretOrKey: refreshTokenConfig.secret,
+          jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+          secretOrKey: accessTokenConfig.secret,
         },
         async (payload: Payload, done: VerifiedCallback) => {
           const user = await this.userRepo.findById(payload.sub);

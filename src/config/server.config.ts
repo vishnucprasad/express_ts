@@ -3,7 +3,10 @@ import { Application, NextFunction, Request, Response } from 'express';
 import { BaseException, InternalServerException } from './exception.config';
 import passport from 'passport';
 import { DatabaseConnection } from '../database';
-import { AccessTokenStrategy, RefreshTokenStrategy } from '../auth/strategy';
+import {
+  AccessTokenStrategy,
+  RefreshTokenStrategy,
+} from '../api/auth/strategy';
 import { container } from './inversify.config';
 
 export async function serverConfig(app: Application) {
