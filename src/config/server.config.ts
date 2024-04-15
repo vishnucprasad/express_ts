@@ -1,9 +1,7 @@
 import { json, urlencoded } from 'body-parser';
 import { Application, NextFunction, Request, Response } from 'express';
 import { BaseException, InternalServerException } from './exception.config';
-import passport from 'passport';
 import { DatabaseConnection } from '../database';
-import { AccessTokenStrategy, RefreshTokenStrategy } from '../auth/strategy';
 import { container } from './inversify.config';
 
 export async function serverConfig(app: Application) {
@@ -13,12 +11,6 @@ export async function serverConfig(app: Application) {
     })
   );
   app.use(json());
-
-  app.use(passport.initialize());
-  const accessTokenStrategy = container.get(AccessTokenStrategy);
-  accessTokenStrategy.init();
-  const refreshTokenStrategy = container.get(RefreshTokenStrategy);
-  refreshTokenStrategy.init();
 
   const database = container.get(DatabaseConnection);
   await database.initConnection();
